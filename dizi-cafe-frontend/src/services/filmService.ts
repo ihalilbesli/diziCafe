@@ -19,8 +19,6 @@ export const searchFilms = async (params: {
 }) => api.get(`${BASE_URL}/search`, { params });
 
 
-export const addFilm = async (film: any) => api.post(`${BASE_URL}/add`, film);
-
 
 export const updateFilm = async (id: number, updatedFilm: any) =>
     api.put(`${BASE_URL}/update/${id}`, updatedFilm);
@@ -28,3 +26,13 @@ export const updateFilm = async (id: number, updatedFilm: any) =>
 
 export const deleteFilm = async (id: number) =>
     api.delete(`${BASE_URL}/delete/${id}`);
+
+export const getAllFilmsPaged = async (page: number, size: number = 20) =>
+    api.get(`${BASE_URL}?page=${page}&size=${size}`);
+
+export const addFilmByImdbId = async (imdbId: string) =>
+    api.post(`${BASE_URL}/fetch?imdbId=${imdbId}`);
+
+export const addMultipleFilms = async (imdbIds: string[]) =>
+    api.post(`${BASE_URL}/fetch-multiple`, imdbIds);
+

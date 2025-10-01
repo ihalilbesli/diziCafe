@@ -8,6 +8,8 @@ const api = axios.create({
 // Her istek öncesi token'ı ekle
 api.interceptors.request.use(
   (config) => {
+    console.log(`🌍 API Request: ${config.method?.toUpperCase()} ${config.url}`);
+    console.log("📩 Headers:", config.headers);
     const token = getToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;

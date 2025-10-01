@@ -23,10 +23,7 @@ const Login = () => {
     try {
       const res = await login(email, password);
 
-      // 🔴 Önceki: const token = res.data.token;
-      // 🟢 Güncel:
       const token: string | undefined = res?.data?.jwtToken;
-
       if (!token) {
         console.error("Login response:", res?.data);
         setError("Sunucu token döndürmedi (jwtToken bulunamadı).");
@@ -38,11 +35,13 @@ const Login = () => {
       const role = getUserRole();
       console.log("Kullanıcı rolü:", role);
 
-      navigate("/"); // Giriş başarılıysa yönlendirme yapılır
+      // ✅ Rol fark etmeksizin anasayfaya yönlendirme
+      navigate("/");
     } catch (err) {
       console.error("Giriş hatası:", err);
       setError("Email veya şifre hatalı!");
     }
+
   };
 
   return (

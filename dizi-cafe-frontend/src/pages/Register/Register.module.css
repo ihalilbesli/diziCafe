@@ -1,65 +1,88 @@
 .container {
-  max-width: 400px;
-  margin: 80px auto;
-  padding: 30px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  background-color: #f9f9f9;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 450px;
+  margin: 60px auto;
+  padding: 35px;
+  background-color: #1c1c1c;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+  color: #fff;
+  animation: fadeIn 0.5s ease-in-out;
 }
 
 .title {
-  text-align: center;
-  margin-bottom: 25px;
   font-size: 28px;
+  margin-bottom: 25px;
+  text-align: center;
+  color: #ffcc00;
   font-weight: bold;
-  color: #333;
 }
 
 .inputGroup {
   display: flex;
   align-items: center;
+  gap: 10px;
+  background-color: #2a2a2a;
+  padding: 12px 15px;
+  border-radius: 8px;
   margin-bottom: 18px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  padding: 10px;
-  background-color: white;
+  transition: background-color 0.3s ease;
 }
 
-.inputGroup svg {
-  margin-right: 10px;
-  font-size: 18px;
-  color: #777;
+.inputGroup:hover {
+  background-color: #333;
 }
 
 .inputGroup input,
 .inputGroup select {
+  flex: 1;
+  background: none;
   border: none;
   outline: none;
-  flex: 1;
-  font-size: 16px;
-  background-color: transparent;
+  color: #fff;
+  font-size: 15px;
+}
+
+.inputGroup input[type="date"] {
+  color-scheme: dark; /* tarih seçici dark moda uygun */
+}
+
+.inputGroup svg {
+  color: #ffcc00;
+  font-size: 18px;
 }
 
 .button {
   width: 100%;
   padding: 12px;
-  font-size: 16px;
-  background-color: #4caf50;
-  color: white;
+  background-color: #ffcc00;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .button:hover {
-  background-color: #45a049;
+  background-color: #e6b800;
+  transform: scale(1.03);
 }
 
 .error {
-  margin-top: 10px;
-  color: #e53935;
+  margin-top: 12px;
+  color: #ff4d4d;
   font-size: 14px;
   text-align: center;
+  font-weight: 500;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import styles from "./CommentSection.module.css";
 import {
   getFilmComments,
-  addComment
+  addComment,
+  updateComment
 } from "../../services/commentService";
 import {
   likeComment,
@@ -14,18 +15,20 @@ import {
   getDislikeCount
 } from "../../services/commentLikeService";
 import { getToken } from "../../services/authService";
+import { getCurrentUser } from "../../services/userService";
 import {
   FaHeart,
   FaRegHeart,
   FaThumbsDown,
-  FaRegThumbsDown
+  FaRegThumbsDown,
+  FaEdit
 } from "react-icons/fa";
 
 interface Comment {
   id: number;
   content: string;
   createdAt: string;
-  user: { nickname: string };
+  user: { nickname: string; role: string };
   replies?: Comment[];
 }
 
@@ -41,6 +44,11 @@ const CommentSection = ({ filmId }: Props) => {
   const [dislikes, setDislikes] = useState<{ [key: number]: number }>({});
   const [userLikes, setUserLikes] = useState<{ [key: number]: boolean }>({});
   const [userDislikes, setUserDislikes] = useState<{ [key: number]: boolean }>({});
+  const [currentUser, setCurrentUser] = useState<string | null>(null);
+
+  // Edit state
+  const [editingComment, setEditingComment] = useState<number | null>(null);
+  const [editContent, setEditContent] = useState<string>("");
 
   const fetchAll = async () => {
     try {
@@ -53,16 +61,24 @@ const CommentSection = ({ filmId }: Props) => {
       const userDislikeMap: any = {};
 
       for (let c of res.data) {
-        const [lCount, dCount, liked, disliked] = await Promise.all([
+        const [lCount, dCount] = await Promise.all([
           getLikeCount(c.id),
           getDislikeCount(c.id),
-          hasUserLiked(c.id),
-          hasUserDisliked(c.id)
         ]);
         likeMap[c.id] = lCount.data;
         dislikeMap[c.id] = dCount.data;
-        userLikeMap[c.id] = liked.data;
-        userDislikeMap[c.id] = disliked.data;
+
+        if (getToken()) {
+          const [liked, disliked] = await Promise.all([
+            hasUserLiked(c.id),
+            hasUserDisliked(c.id),
+          ]);
+          userLikeMap[c.id] = liked.data;
+          userDislikeMap[c.id] = disliked.data;
+        } else {
+          userLikeMap[c.id] = false;
+          userDislikeMap[c.id] = false;
+        }
       }
 
       setLikes(likeMap);
@@ -77,6 +93,12 @@ const CommentSection = ({ filmId }: Props) => {
   useEffect(() => {
     fetchAll();
   }, [filmId]);
+
+  useEffect(() => {
+    if (getToken()) {
+      getCurrentUser().then(res => setCurrentUser(res.data.nickname));
+    }
+  }, []);
 
   const requireAuth = () => {
     if (!getToken()) {
@@ -120,7 +142,15 @@ const CommentSection = ({ filmId }: Props) => {
     fetchAll();
   };
 
-  // Tarihi formatla (örn. 9 Ekim 2023)
+  const handleUpdateComment = async (commentId: number) => {
+    if (!editContent.trim()) return;
+    await updateComment(commentId, editContent);
+    setEditingComment(null);
+    setEditContent("");
+    fetchAll();
+  };
+
+  // Tarihi formatla
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("tr-TR", {
@@ -140,12 +170,38 @@ const CommentSection = ({ filmId }: Props) => {
         <div key={comment.id} className={styles.comment}>
           <div className={styles.commentHeader}>
             <div className={styles.userInfo}>
+              {/* Düzenleme ikonu sadece kendi yorumunda */}
+              {currentUser === comment.user.nickname && (
+                <FaEdit
+                  className={styles.editIcon}
+                  onClick={() => {
+                    setEditingComment(comment.id);
+                    setEditContent(comment.content);
+                  }}
+                />
+              )}
               <strong>{comment.user.nickname}</strong>
+              {comment.user.role === "ADMIN" && (
+                <span className={styles.badge}>Admin</span>
+              )}
               <span className={styles.date}>{formatDate(comment.createdAt)}</span>
             </div>
-            <div className={styles.actions}> ... </div>
           </div>
-          <p>{comment.content}</p>
+
+          {editingComment === comment.id ? (
+            <div className={styles.editBox}>
+              <textarea
+                value={editContent}
+                onChange={(e) => setEditContent(e.target.value)}
+              />
+              <div className={styles.editActions}>
+                <button onClick={() => handleUpdateComment(comment.id)}>Kaydet</button>
+                <button onClick={() => setEditingComment(null)}>İptal</button>
+              </div>
+            </div>
+          ) : (
+            <p>{comment.content}</p>
+          )}
 
           <div className={styles.actions}>
             {userLikes[comment.id] ? (
@@ -166,9 +222,14 @@ const CommentSection = ({ filmId }: Props) => {
           <div className={styles.replySection}>
             {comment.replies?.map((reply) => (
               <div key={reply.id} className={styles.reply}>
-                <div className={styles.commentHeader}>
-                  <strong>{reply.user.nickname}</strong>
-                  <span className={styles.date}>{formatDate(reply.createdAt)}</span>
+                <div className={styles.replyHeader}>
+                  <div className={styles.userInfo}>
+                    <strong>{reply.user.nickname}</strong>
+                    {reply.user.role === "ADMIN" && (
+                      <span className={styles.badge}>Admin</span>
+                    )}
+                    <span className={styles.date}>{formatDate(reply.createdAt)}</span>
+                  </div>
                 </div>
                 <p>{reply.content}</p>
               </div>

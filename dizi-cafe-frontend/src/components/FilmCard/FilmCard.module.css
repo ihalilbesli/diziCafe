@@ -5,7 +5,7 @@
   width: 250px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   transition: transform 0.3s ease;
-  position: relative; /* ikonları absolute konumlandırabilmek için */
+  position: relative;
 }
 
 .card:hover {
@@ -38,7 +38,7 @@
 .rating {
   color: #ffcc00;
   font-weight: bold;
-  margin-bottom: 8px;
+  margin-bottom: 32px; /* ikonlar için boşluk */
 }
 
 /* ---- Aksiyon butonları ---- */
@@ -48,41 +48,55 @@
   right: 10px;
   display: flex;
   gap: 10px;
-  opacity: 0;                 /* başlangıçta gizli */
+  opacity: 0;
   transition: opacity 0.3s ease;
 }
 
 .card:hover .actions {
-  opacity: 1;                 /* hover olunca görünür (desktop) */
+  opacity: 1;
 }
 
+/* İkon stilleri */
 .icon {
   font-size: 18px;
-  color: #ccc;
   cursor: pointer;
   transition: transform 0.2s ease, color 0.3s ease;
 }
 
-.icon:hover {
-  transform: scale(1.2);
-  color: #ff4757;
+.iconDefault {
+  color: #ccc;
 }
 
-/* 📱 Mobil uyum: hover yok, ikonlar her zaman görünsün */
+.iconLikeActive {
+  color: #ff4757; /* ❤️ kırmızı */
+}
+
+.iconDislikeActive {
+  color: #3498db; /* 👎 mavi */
+}
+
+.iconActive {
+  color: #27ae60; /* ✅ Kaydedildi: yeşil */
+}
+
+.icon:hover {
+  transform: scale(1.2);
+}
+
 @media (max-width: 768px) {
   .actions {
-    opacity: 1;               /* mobilde sürekli görünür */
+    opacity: 1;
     bottom: 8px;
     right: 8px;
   }
 
   .card {
-    width: 100%;              /* mobilde kart genişliği %100 */
-    max-width: 320px;         /* ama çok büyümesin */
+    width: 100%;
+    max-width: 320px;
     margin: 0 auto;
   }
 
   .poster {
-    height: 500px;            /* mobilde biraz daha küçük */
+    height: 500px;
   }
 }

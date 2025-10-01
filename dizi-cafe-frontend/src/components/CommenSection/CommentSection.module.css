@@ -1,6 +1,6 @@
 .commentSection {
   margin-top: 20px;
-  text-align: left; /* sola hizalama */
+  text-align: left;
 }
 
 .commentSection h3 {
@@ -74,6 +74,20 @@
   border-radius: 6px;
 }
 
+.replyHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
 .reply strong {
   color: #4da6ff;
 }
@@ -82,6 +96,18 @@
   color: #ccc;
   font-size: 13px;
   margin: 4px 0 0 0;
+}
+
+.badge {
+  background: #ff5722;
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1.2;
 }
 
 .replySection input {
@@ -145,4 +171,63 @@
 
 .addComment button:hover {
   background-color: #e6b800;
+}
+
+/* ---- Düzenleme İkonu ---- */
+.editIcon {
+  cursor: pointer;
+  color: #3eb111;
+  font-size: 15px;
+  transition: transform 0.2s, color 0.2s;
+}
+
+.editIcon:hover {
+  transform: scale(1.2);
+  color: #fff;
+}
+
+/* ---- Düzenleme Modu ---- */
+.editBox textarea {
+  width: 100%;
+  min-height: 60px;
+  padding: 6px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  background: #333;
+  color: #fff;
+  font-size: 14px;
+}
+
+.editActions {
+  margin-top: 6px;
+  display: flex;
+  gap: 8px;
+}
+
+.editActions button {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+.editActions button:first-child {
+  background-color: #ffcc00;
+  color: #000;
+}
+
+.editActions button:first-child:hover {
+  background-color: #e6b800;
+}
+
+.editActions button:last-child {
+  background-color: #555;
+  color: #fff;
+}
+
+.editActions button:last-child:hover {
+  background-color: #777;
 }

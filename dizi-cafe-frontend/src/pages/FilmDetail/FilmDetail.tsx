@@ -47,32 +47,38 @@ export default function FilmDetail() {
     const [disliked, setDisliked] = useState(false);
     const [saved, setSaved] = useState(false);
     const [avgRating, setAvgRating] = useState<number | null>(null);
+    const isLoggedIn = !!getToken();
 
     useEffect(() => {
         const fetchData = async () => {
             if (id) {
                 try {
                     const filmRes = await getFilmById(parseInt(id));
-                    const likedRes = await hasLiked(parseInt(id));
-                    const dislikedRes = await hasDisliked(parseInt(id));
-                    const savedRes = await isInCollection(parseInt(id));
-                    const avgRes = await getAverageScore(parseInt(id));
-
                     setFilm(filmRes.data);
-                    setLiked(likedRes.data);
-                    setDisliked(dislikedRes.data);
-                    setSaved(savedRes.data);
+
+                    // ortalama puan herkese açık
+                    const avgRes = await getAverageScore(parseInt(id));
                     setAvgRating(avgRes.data);
+
+                    // like/dislike/save sadece login kullanıcıya sorgulansın
+                    if (isLoggedIn) {
+                        const likedRes = await hasLiked(parseInt(id));
+                        const dislikedRes = await hasDisliked(parseInt(id));
+                        const savedRes = await isInCollection(parseInt(id));
+                        setLiked(likedRes.data);
+                        setDisliked(dislikedRes.data);
+                        setSaved(savedRes.data);
+                    }
                 } catch (err) {
                     console.error("Veriler alınamadı:", err);
                 }
             }
         };
         fetchData();
-    }, [id]);
+    }, [id, isLoggedIn]);
 
     const requireAuth = () => {
-        if (!getToken()) {
+        if (!isLoggedIn) {
             alert("Bu işlemi yapmak için giriş yapmalısınız.");
             return false;
         }
@@ -153,6 +159,7 @@ export default function FilmDetail() {
                             </span>
                         )}
 
+                        {/* login değilse sadece ikon görsün, tıklarsa alert gelsin */}
                         {liked ? (
                             <FaHeart className={styles.icon} title="Beğendin" onClick={handleLike} />
                         ) : (
@@ -177,7 +184,6 @@ export default function FilmDetail() {
             <div className={styles.commentSection}>
                 <RatingStars filmId={film.id} />
                 <CommentSection filmId={film.id} />
-
             </div>
         </div>
     );

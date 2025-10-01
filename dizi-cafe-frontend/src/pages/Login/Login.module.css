@@ -2,67 +2,81 @@
   max-width: 400px;
   margin: 80px auto;
   padding: 30px;
-  background-color: #ffffff;
+  background-color: #1c1c1c;
   border-radius: 12px;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+  color: #fff;
+  text-align: center;
+  animation: fadeIn 0.5s ease-in-out;
 }
 
 .title {
-  text-align: center;
   font-size: 28px;
-  color: #333;
-  margin-bottom: 24px;
+  margin-bottom: 25px;
+  color: #ffcc00;
+  font-weight: bold;
 }
 
 .inputGroup {
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  padding: 10px 14px;
+  gap: 10px;
+  background-color: #2a2a2a;
+  padding: 12px 15px;
   border-radius: 8px;
-  background-color: #f9f9f9;
-  transition: border 0.3s;
+  margin-bottom: 18px;
+  transition: border 0.3s ease, background-color 0.3s ease;
 }
 
-.inputGroup:focus-within {
-  border-color: #007bff;
-}
-
-.inputGroup svg {
-  margin-right: 10px;
-  color: #555;
-  font-size: 18px;
+.inputGroup:hover {
+  background-color: #333;
 }
 
 .inputGroup input {
+  flex: 1;
+  background: none;
   border: none;
   outline: none;
-  width: 100%;
-  font-size: 16px;
-  background: transparent;
+  color: #fff;
+  font-size: 15px;
+}
+
+.inputGroup svg {
+  color: #ffcc00;
+  font-size: 18px;
 }
 
 .button {
   width: 100%;
   padding: 12px;
-  background-color: #007bff;
-  color: #fff;
-  font-size: 17px;
+  background-color: #ffcc00;
   border: none;
   border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s;
-  margin-top: 10px;
+  transition: all 0.3s ease;
 }
 
 .button:hover {
-  background-color: #0056b3;
+  background-color: #e6b800;
+  transform: scale(1.03);
 }
 
 .error {
   margin-top: 12px;
-  color: red;
-  text-align: center;
+  color: #ff4d4d;
   font-size: 14px;
+  font-weight: 500;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

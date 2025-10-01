@@ -3,10 +3,11 @@
   justify-content: space-between;
   align-items: center;
   background: #1c1c1c;
-  padding: 12px 24px;
+  padding: 10px 16px; 
   color: white;
   position: relative;
   z-index: 10;
+  height: 75px; 
 }
 
 .left {
@@ -16,18 +17,19 @@
 }
 
 .logo {
-  width: 45px;
+  width: 120px;   
   height: auto;
   cursor: pointer;
 }
 
 .slogan {
-  font-size: 14px;
-  color: #ccc;
+  font-size: 16px; 
+  color: #ffcc00;
 }
 
 .link {
-  color: #ccc;
+  font-size: 15px;
+  color: #ffcc00;
   text-decoration: none;
   transition: color 0.2s ease;
 }
@@ -43,27 +45,29 @@
 }
 
 .search {
-  width: 60%;
-  max-width: 400px;
-  padding: 6px 10px;
+  width: 65%;
+  max-width: 500px;
+  padding: 8px 12px; /* ✅ Daha yüksek input */
   border-radius: 6px;
   border: none;
   outline: none;
+  font-size: 15px;
 }
 
 .right {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 
 .button {
   background: #ff4757;
   color: white;
-  padding: 6px 12px;
+  padding: 8px 14px;
   border-radius: 6px;
   text-decoration: none;
   transition: background 0.3s;
+  font-size: 15px;
 }
 
 .button:hover {
@@ -73,57 +77,86 @@
 .profileArea {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   position: relative;
 }
 
 .welcome {
-  font-size: 14px;
+  font-size: 15px;
   color: #ffcc00;
 }
 
+/* ---- Hamburger ikonu ---- */
 .hamburger {
-  font-size: 22px;
+  font-size: 28px; /* ✅ Daha büyük */
   cursor: pointer;
-  color: #fff;
+  color: #ffcc00;  /* ✅ Sarı renkte öne çıksın */
+  padding: 8px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
 }
 
+.hamburger:hover {
+  background: rgba(255, 204, 0, 0.15);
+  transform: scale(1.15) rotate(5deg);
+  color: #fff;
+  box-shadow: 0 0 8px rgba(255, 204, 0, 0.6);
+}
+
+/* ---- Profil Menü ---- */
 .profileMenu {
   position: absolute;
-  top: 40px;
+  top: 60px; /* ✅ Navbar yüksekliğine göre aşağı kaydırıldı */
   right: 0;
   background: #1c1c1c;
   border-radius: 8px;
-  padding: 10px;
+  padding: 12px 0;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  gap: 6px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.5);
   z-index: 100;
-  min-width: 200px;
+  min-width: 220px;
+  animation: fadeIn 0.2s ease;
 }
 
 .menuItem {
-  color: #fff;
+  color: #ffcc00;
   text-decoration: none;
-  padding: 8px 12px;
+  padding: 10px 16px;
   border-radius: 6px;
   display: flex;
   align-items: center;
-  gap: 8px;
-  transition: background 0.2s;
+  gap: 10px;
+  transition: background 0.2s, color 0.2s;
   cursor: pointer;
+  font-size: 15px;
 }
 
 .menuItem:hover {
   background: #333;
+  color: #fff;
 }
 
 .logout {
   background: #e74c3c;
   justify-content: center;
+  color: #fff;
 }
 
 .logout:hover {
   background: #c0392b;
+  color: #fff;
+}
+
+/* Açılırken hafif animasyon */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

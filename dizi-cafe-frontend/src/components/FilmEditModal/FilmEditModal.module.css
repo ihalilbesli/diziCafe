@@ -1,0 +1,82 @@
+/* Modal Arka Plan */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+/* Modal Kutusu */
+.modal {
+  background: #1e1e1e;
+  padding: 35px;
+  border-radius: 12px;
+  width: 700px; /* 📌 Daha geniş */
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
+}
+
+.modal h3 {
+  margin-bottom: 25px;
+  text-align: center;
+  color: #ffcc00;
+  font-size: 22px;
+}
+
+/* Label */
+.modal label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
+  color: #ffcc00;
+}
+
+/* Input ve Textarea */
+.modal input,
+.modal textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 18px;
+  border: 1px solid #333;
+  border-radius: 6px;
+  background: #2c2c2c;
+  color: #fff;
+  font-size: 15px;
+}
+
+.modal textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Butonlar */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.actions button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.actions button:first-child {
+  background: #28a745;
+  color: white;
+}
+
+.actions button.cancel {
+  background: #6c757d;
+  color: white;
+}

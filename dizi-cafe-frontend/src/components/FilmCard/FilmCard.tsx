@@ -24,12 +24,12 @@ import {
   isInCollection
 } from "../../services/collectionService";
 import { getAverageScore } from "../../services/ratingService";
-import { getToken } from "../../services/authService";
+import { getToken, getUserRole } from "../../services/authService";
 
 type FilmProps = {
   id: number;
   title: string;
-  description?: string;   // ✅ opsiyonel hale getirdik
+  description?: string;
   posterUrl: string;
   imdbRating: number;
 };
@@ -41,25 +41,40 @@ const FilmCard = ({ id, title, description, posterUrl, imdbRating }: FilmProps) 
   const [disliked, setDisliked] = useState(false);
   const [saved, setSaved] = useState(false);
   const [avgRating, setAvgRating] = useState<number | null>(null);
+  const [role, setRole] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchStatus = async () => {
+  const fetchStatus = async () => {
+    const userRole = getUserRole();
+    setRole(userRole);
+
+    // 🎯 Ortalama puanı her zaman getir
+    try {
+      const avgRes = await getAverageScore(id);
+      setAvgRating(avgRes.data);
+    } catch (err) {
+      console.warn("Ortalama puan alınamadı:", err);
+    }
+
+    // 🎯 Login olmayan veya ADMIN kullanıcı için like/dislike/save çağırma
+    if (userRole && userRole !== "ADMIN") {
       try {
         const likedRes = await hasLiked(id);
         const dislikedRes = await hasDisliked(id);
         const savedRes = await isInCollection(id);
-        const avgRes = await getAverageScore(id);
 
         setLiked(likedRes.data);
         setDisliked(dislikedRes.data);
         setSaved(savedRes.data);
-        setAvgRating(avgRes.data);
-      } catch (error) {
-        console.error("Durumlar alınamadı:", error);
+      } catch (err) {
+        console.warn("Beğeni/Kaydet bilgisi alınamadı (muhtemelen login değil):", err);
       }
-    };
-    fetchStatus();
-  }, [id]);
+    }
+  };
+
+  fetchStatus();
+}, [id]);
+
 
   const requireAuth = () => {
     if (!getToken()) {
@@ -69,7 +84,8 @@ const FilmCard = ({ id, title, description, posterUrl, imdbRating }: FilmProps) 
     return true;
   };
 
-  const handleLike = async () => {
+  const handleLike = async (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (!requireAuth()) return;
     try {
       if (liked) {
@@ -88,7 +104,8 @@ const FilmCard = ({ id, title, description, posterUrl, imdbRating }: FilmProps) 
     }
   };
 
-  const handleDislike = async () => {
+  const handleDislike = async (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (!requireAuth()) return;
     try {
       if (disliked) {
@@ -107,7 +124,8 @@ const FilmCard = ({ id, title, description, posterUrl, imdbRating }: FilmProps) 
     }
   };
 
-  const handleSave = async () => {
+  const handleSave = async (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (!requireAuth()) return;
     try {
       if (saved) {
@@ -123,12 +141,15 @@ const FilmCard = ({ id, title, description, posterUrl, imdbRating }: FilmProps) 
   };
 
   const handleNavigate = () => {
-    if (!requireAuth()) return;
     navigate(`/films/${id}`);
   };
 
   return (
-    <div className={styles.card}>
+    <div
+      className={styles.card}
+      onClick={handleNavigate}
+      style={{ cursor: "pointer" }}
+    >
       <img src={posterUrl} alt={title} className={styles.poster} />
       <div className={styles.info}>
         <h3 className={styles.title}>{title}</h3>
@@ -141,36 +162,78 @@ const FilmCard = ({ id, title, description, posterUrl, imdbRating }: FilmProps) 
         </p>
         <p className={styles.rating}>⭐ IMDb: {imdbRating}</p>
 
-        <div className={styles.actions}>
+        <div className={styles.actions} onClick={(e) => e.stopPropagation()}>
+          {/* Site ortalama puanı her zaman görünsün */}
           {avgRating !== null && (
             <span className={styles.avgRating}>
               <FaUsers /> {avgRating.toFixed(1)}
             </span>
           )}
 
-          {liked ? (
-            <FaHeart className={styles.icon} title="Beğendin" onClick={handleLike} />
+          {role === "ADMIN" ? (
+            // Admin sadece yorum ikonu görür
+            <FaCommentDots
+              className={`${styles.icon} ${styles.iconDefault}`}
+              title="Yorum Yap"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleNavigate();
+              }}
+            />
           ) : (
-            <FaRegHeart className={styles.icon} title="Beğen" onClick={handleLike} />
-          )}
+            <>
+              {liked ? (
+                <FaHeart
+                  className={`${styles.icon} ${styles.iconLikeActive}`}
+                  title="Beğendin"
+                  onClick={handleLike}
+                />
+              ) : (
+                <FaRegHeart
+                  className={`${styles.icon} ${styles.iconDefault}`}
+                  title="Beğen"
+                  onClick={handleLike}
+                />
+              )}
 
-          {disliked ? (
-            <FaThumbsDown className={styles.icon} title="Beğenmedin" onClick={handleDislike} />
-          ) : (
-            <FaRegThumbsDown className={styles.icon} title="Beğenme" onClick={handleDislike} />
-          )}
+              {disliked ? (
+                <FaThumbsDown
+                  className={`${styles.icon} ${styles.iconDislikeActive}`}
+                  title="Beğenmedin"
+                  onClick={handleDislike}
+                />
+              ) : (
+                <FaRegThumbsDown
+                  className={`${styles.icon} ${styles.iconDefault}`}
+                  title="Beğenme"
+                  onClick={handleDislike}
+                />
+              )}
 
-          {saved ? (
-            <FaBookmark className={styles.icon} title="Kaydedildi" onClick={handleSave} />
-          ) : (
-            <FaRegBookmark className={styles.icon} title="Kaydet" onClick={handleSave} />
-          )}
+              {saved ? (
+                <FaBookmark
+                  className={`${styles.icon} ${styles.iconActive}`}
+                  title="Kaydedildi"
+                  onClick={handleSave}
+                />
+              ) : (
+                <FaRegBookmark
+                  className={`${styles.icon} ${styles.iconDefault}`}
+                  title="Kaydet"
+                  onClick={handleSave}
+                />
+              )}
 
-          <FaCommentDots
-            className={styles.icon}
-            title="Yorum Yap"
-            onClick={handleNavigate}
-          />
+              <FaCommentDots
+                className={`${styles.icon} ${styles.iconDefault}`}
+                title="Yorum Yap"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleNavigate();
+                }}
+              />
+            </>
+          )}
         </div>
       </div>
     </div>

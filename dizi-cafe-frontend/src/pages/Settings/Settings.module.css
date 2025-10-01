@@ -1,22 +1,28 @@
 .container {
   max-width: 800px;
-  margin: 40px auto;
-  padding: 20px;
+  margin: 0 auto;              /* Yukarıdan boşluk yok */
+  padding: 40px 20px;          /* İç padding ayarlandı */
   color: #fff;
+  min-height: calc(100vh - 80px); /* Navbar yüksekliği kadar boşluk bırak */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Ortadan biraz yukarıda başlasın */
+  align-items: center;
 }
 
 .heading {
   text-align: center;
-  font-size: 28px;
-  margin-bottom: 30px;
+  font-size: 32px;
+  margin: 20px 0 30px;         /* Daha dengeli boşluk */
   color: #ffcc00;
 }
 
 .card {
   background-color: #1c1c1c;
   border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 30px;
+  padding: 25px;
+  margin-bottom: 25px;
+  width: 100%;
   box-shadow: 0 4px 12px rgba(0,0,0,0.6);
   animation: fadeIn 0.5s ease;
 }
@@ -25,6 +31,7 @@
   margin-bottom: 15px;
   font-size: 20px;
   color: #ffcc00;
+  text-align: center;          /* Başlık ortalı */
 }
 
 .formGroup {
@@ -34,7 +41,7 @@
 }
 
 .formGroup label {
-  margin-bottom: 5px;
+  margin-bottom: 6px;
   font-weight: bold;
   color: #ddd;
 }
@@ -56,7 +63,7 @@
 }
 
 .saveBtn {
-  margin-top: 10px;
+  margin-top: 15px;
   padding: 10px 16px;
   border: none;
   border-radius: 6px;
@@ -65,6 +72,7 @@
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s;
+  width: 100%;
 }
 
 .saveBtn:hover {
@@ -84,7 +92,7 @@
 
 /* Responsive */
 @media (max-width: 600px) {
-  .container { padding: 10px; }
-  .heading { font-size: 22px; }
+  .container { padding: 20px 10px; }
+  .heading { font-size: 24px; margin: 15px 0; }
   .card { padding: 15px; }
 }

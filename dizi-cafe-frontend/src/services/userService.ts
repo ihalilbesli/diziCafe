@@ -23,3 +23,6 @@ export const getAllUsers = async () =>
 // Admin: kullanıcı silme
 export const deleteUser = async (id: number) =>
   api.delete(`${BASE_URL}/${id}`);
+
+export const toggleBanUser = (userId: number) =>
+  api.put(`${BASE_URL}/${userId}/toggle-ban`);

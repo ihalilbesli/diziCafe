@@ -29,3 +29,6 @@ api.get(`${BASE_URL}/replies/${parentId}`);
 
 export const getMyComments = async () =>
   api.get(`${BASE_URL}/my-comments`);
+
+export const getAllComments = async () =>
+  api.get(`${BASE_URL}/all`);
