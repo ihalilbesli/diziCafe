@@ -39,10 +39,32 @@ public class SecurityConfig {
                         // FILMS: GET istekleri herkese açık
                         .requestMatchers(HttpMethod.GET, "/diziCafe/films/**").permitAll()
 
-                        // FILMS: yazma işlemleri sadece ADMIN (istersen kaldır)
+                        // RATINGS: ortalama puan herkese açık
+                        .requestMatchers(HttpMethod.GET, "/diziCafe/ratings/*/average").permitAll()
+
+                        // COMMENTS: GET herkese açık, ekleme/güncelleme/silme → login gerekli
+                        .requestMatchers(HttpMethod.GET, "/diziCafe/comments/**").permitAll()
+                        .requestMatchers("/diziCafe/comments/**").authenticated()
+
+                        // COMMENT-LIKES: sayılar herkese açık
+                        .requestMatchers(HttpMethod.GET, "/diziCafe/comment-likes/likeCount/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/diziCafe/comment-likes/dislikeCount/**").permitAll()
+
+                        // COMMENT-LIKES: kullanıcıya özel olanlar → login gerekli
+                        .requestMatchers("/diziCafe/comment-likes/hasLiked/**").authenticated()
+                        .requestMatchers("/diziCafe/comment-likes/hasDisliked/**").authenticated()
+
+                        // COMMENT-LIKES: like/dislike ekleme & silme → login gerekli
+                        .requestMatchers(HttpMethod.POST, "/diziCafe/comment-likes/**").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/diziCafe/comment-likes/**").authenticated()
+
+                        // RATINGS: kendi puanı görme, ekleme, güncelleme, silme → login gerekli
+                        .requestMatchers("/diziCafe/ratings/**").authenticated()
+
+                        // FILMS: yazma işlemleri sadece ADMIN
                         .requestMatchers("/diziCafe/films/add",
                                 "/diziCafe/films/update/**",
-                                "/diziCafe/films/delete/**").hasRole("ADMIN")
+                                "/diziCafe/films/delete/**").hasAuthority("ADMIN")
 
                         // diğer her şey auth ister
                         .anyRequest().authenticated()

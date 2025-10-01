@@ -1,12 +1,12 @@
 package com.diziCafe.service;
 
 import com.diziCafe.model.Film;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface FilmService {
 
-    Film addFilm(Film film);
 
     Film updateFilm(Long id, Film updatedFilm);
 
@@ -17,4 +17,7 @@ public interface FilmService {
     Film getFilmById(Long id);
 
     List<Film> searchFilms(String title, String genre, String director, Double minRating);
+
+    Page<Film> getAllFilms(Pageable pageable);
+
 }

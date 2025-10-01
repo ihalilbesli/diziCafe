@@ -3,8 +3,12 @@ package com.diziCafe.controller;
 import com.diziCafe.model.Film;
 import com.diziCafe.service.FilmService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Pageable;
+
 
 import java.util.List;
 
@@ -15,11 +19,6 @@ public class FilmController {
 
     private final FilmService filmService;
 
-    //  Film ekle (sadece ADMIN)
-    @PostMapping("/add")
-    public ResponseEntity<Film> addFilm(@RequestBody Film film) {
-        return ResponseEntity.ok(filmService.addFilm(film));
-    }
 
     // ️ Film güncelle (sadece ADMIN)
     @PutMapping("/update/{id}")
@@ -55,5 +54,14 @@ public class FilmController {
             @RequestParam(required = false) Double minRating
     ) {
         return ResponseEntity.ok(filmService.searchFilms(title, genre, director, minRating));
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<Film>> getAllFilms(
+            @RequestParam(defaultValue = "0") int page,   // hangi sayfa
+            @RequestParam(defaultValue = "24") int size   // her sayfada kaç film
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(filmService.getAllFilms(pageable));
     }
 }

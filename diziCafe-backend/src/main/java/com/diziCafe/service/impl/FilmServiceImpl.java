@@ -9,6 +9,8 @@ import com.diziCafe.util.SecurityUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -20,20 +22,6 @@ public class FilmServiceImpl implements FilmService {
     private final FilmRepository filmRepository;
     private final UserRepository userRepository;
 
-    @Override
-    public Film addFilm(Film film) {
-        User user = getCurrentUserOrThrow();
-        if (user.getRole() != User.Role.ADMIN) {
-            throw new RuntimeException("Sadece admin kullanıcı film ekleyebilir.");
-        }
-
-        // Aynı IMDb ID ile daha önce kayıtlıysa engelle
-        filmRepository.findByImdbId(film.getImdbId()).ifPresent(f -> {
-            throw new RuntimeException("Bu IMDb ID ile kayıtlı bir film zaten mevcut.");
-        });
-
-        return filmRepository.save(film);
-    }
 
     @Override
     public Film updateFilm(Long id, Film updatedFilm) {
@@ -96,5 +84,10 @@ public class FilmServiceImpl implements FilmService {
     private User getCurrentUserOrThrow() {
         return userRepository.findById(SecurityUtil.getCurrentUserId())
                 .orElseThrow(() -> new RuntimeException("Kullanıcı bulunamadı"));
+    }
+
+    @Override
+    public Page<Film> getAllFilms(Pageable pageable) {
+        return filmRepository.findAll(pageable);
     }
 }

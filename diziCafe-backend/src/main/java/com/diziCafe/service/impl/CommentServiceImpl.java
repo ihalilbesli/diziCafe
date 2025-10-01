@@ -101,4 +101,9 @@ public class CommentServiceImpl implements CommentService {
         User user = getCurrentUser();
         return commentRepository.findByUser(user);
     }
+
+    @Override
+    public List<Comment> getAllComments() {
+        return commentRepository.findAll();
+    }
 }

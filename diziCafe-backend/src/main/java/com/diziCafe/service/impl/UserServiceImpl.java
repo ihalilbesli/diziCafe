@@ -97,4 +97,25 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    @Override
+    public User toggleBanUser(Long id) {
+        User currentUser = getCurrentUser();
+        if (currentUser.getRole() != User.Role.ADMIN) {
+            throw new RuntimeException("Sadece admin kullanıcılar ban işlemi yapabilir.");
+        }
+
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Kullanıcı bulunamadı"));
+
+        // Admin kendini banlayamasın
+        if (user.getId().equals(currentUser.getId())) {
+            throw new RuntimeException("Kendi hesabınızı banlayamazsınız.");
+        }
+
+        user.setBanned(!user.isBanned()); // toggle ban
+        return userRepository.save(user);
+    }
+
+
+
 }

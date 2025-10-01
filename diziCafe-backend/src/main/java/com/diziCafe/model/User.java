@@ -54,4 +54,6 @@ public class User {
         KADIN,
         BELIRTMEK_ISTEMIYOR
     }
+    @Column(name = "banned")
+    private boolean banned = false;
 }

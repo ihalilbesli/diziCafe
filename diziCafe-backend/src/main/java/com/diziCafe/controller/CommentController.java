@@ -41,7 +41,7 @@ public class CommentController {
         return ResponseEntity.ok("Yorum silindi.");
     }
 
-    //  Film'in tüm üst yorumlarını getir
+    //  Film'in tüm  yorumlarını getir
     @GetMapping("/film/{filmId}")
     public ResponseEntity<List<Comment>> getFilmComments(@PathVariable Long filmId) {
         return ResponseEntity.ok(commentService.getFilmComments(filmId));
@@ -56,6 +56,11 @@ public class CommentController {
     @GetMapping("/my-comments")
     public ResponseEntity<List<Comment>> getMyComments() {
         return ResponseEntity.ok(commentService.getMyComments());
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Comment>> getAllComments() {
+        return ResponseEntity.ok(commentService.getAllComments());
     }
 
 }

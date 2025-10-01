@@ -18,5 +18,7 @@ public interface CommentService {
 
     List<Comment> getMyComments();
 
+    List<Comment> getAllComments();
+
 
 }

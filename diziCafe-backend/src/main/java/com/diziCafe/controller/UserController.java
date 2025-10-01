@@ -52,4 +52,9 @@ public class UserController {
         return ResponseEntity.ok("Şifre başarıyla güncellendi.");
     }
 
+    @PutMapping("/{id}/toggle-ban")
+    public ResponseEntity<User> toggleBanUser(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.toggleBanUser(id));
+    }
+
 }

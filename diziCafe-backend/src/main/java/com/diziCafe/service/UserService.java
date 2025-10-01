@@ -16,4 +16,6 @@ public interface UserService {
 
     void changePassword(Long userId, String oldPassword, String newPassword);
 
+    User toggleBanUser(Long id);
+
 }
