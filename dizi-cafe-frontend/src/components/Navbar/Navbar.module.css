@@ -1,0 +1,129 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1c1c1c;
+  padding: 12px 24px;
+  color: white;
+  position: relative;
+  z-index: 10;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.logo {
+  width: 45px;
+  height: auto;
+  cursor: pointer;
+}
+
+.slogan {
+  font-size: 14px;
+  color: #ccc;
+}
+
+.link {
+  color: #ccc;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.link:hover {
+  color: #fff;
+}
+
+.center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.search {
+  width: 60%;
+  max-width: 400px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.button {
+  background: #ff4757;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+
+.button:hover {
+  background: #e84118;
+}
+
+.profileArea {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+
+.welcome {
+  font-size: 14px;
+  color: #ffcc00;
+}
+
+.hamburger {
+  font-size: 22px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.profileMenu {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background: #1c1c1c;
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  z-index: 100;
+  min-width: 200px;
+}
+
+.menuItem {
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+.menuItem:hover {
+  background: #333;
+}
+
+.logout {
+  background: #e74c3c;
+  justify-content: center;
+}
+
+.logout:hover {
+  background: #c0392b;
+}

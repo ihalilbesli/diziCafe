@@ -1,0 +1,19 @@
+.container {
+  padding: 40px;
+  background-color: #121212;
+  min-height: 100vh;
+  color: white;
+}
+
+.heading {
+  font-size: 28px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.filmGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}

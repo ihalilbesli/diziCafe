@@ -1,0 +1,78 @@
+.detailContainer {
+  position: relative; /* ✅ relative eklendi */
+  max-width: 1000px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: #1c1c1c;
+  border-radius: 12px;
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+}
+
+.topSection {
+  display: flex;
+  gap: 20px;
+  position: relative; /* ✅ top section içi de relative */
+}
+
+.poster {
+  width: 250px;
+  height: 380px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+}
+
+.info {
+  flex: 1;
+  position: relative; /* ✅ info kısmı da relative */
+}
+
+.info h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+  color: #ffcc00;
+}
+
+.description {
+  margin-top: 10px;
+  line-height: 1.5;
+  color: #ccc;
+}
+
+.actions {
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  position: relative; /* ✅ iconları daha rahat konumlandırabilmek için */
+}
+
+.icon {
+  font-size: 22px;
+  cursor: pointer;
+  color: #ccc;
+  transition: color 0.3s ease, transform 0.2s;
+}
+
+.icon:hover {
+  color: #fff;
+  transform: scale(1.2);
+}
+
+.avgRating {
+  font-weight: bold;
+  font-size: 16px;
+  color: #ffcc00;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  position: relative;
+}
+
+.commentSection {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #333;
+  position: relative;
+}
